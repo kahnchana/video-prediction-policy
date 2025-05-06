@@ -304,8 +304,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--video_model_path", type=str, default="")
     parser.add_argument("--action_model_folder", type=str, default="")
-    parser.add_argument("--text_encoder_path", type=str, default="")
-    parser.add_argument("--root_data_dir", type=str, default="")
+    parser.add_argument("--clip_model_path", type=str, default="")
+    parser.add_argument("--calvin_abc_dir", type=str, default="")
     
     args = parser.parse_args()
     
@@ -313,6 +313,8 @@ if __name__ == "__main__":
         cfg = compose(config_name="calvin_evaluate_all.yaml")
     cfg.model.pretrained_model_path = args.video_model_path
     cfg.train_folder = args.action_model_folder
-    cfg.model.text_encoder_path = args.text_encoder_path
-    cfg.root_data_dir = args.root_data_dir
+    cfg.model.text_encoder_path = args.clip_model_path
+    cfg.root_data_dir = args.calvin_abc_dir
     main(cfg)
+
+    # python policy_evaluation/calvin_evaluate.py --video_model_path /home/disk2/gyj/hyc_ckpt/svd_2camera/checkpoint-100000 --action_model_folder /home/disk2/gyj/hyccode/Video-Prediction-Policy/checkpoint/alllayer1 --clip_model_path /home/disk2/gyj/hyc_ckpt/llm/clip-vit-base-patch32 --calvin_abc_dir /home/disk2/gyj/task_ABC_D

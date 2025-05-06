@@ -44,7 +44,19 @@ This repo is the official PyTorch implementation for ICML Spotlight paper [**Vid
 ```bash
 conda create -n vpp python==3.10
 conda activate vpp
+
+# Install calvin as described in (https://github.com/mees/calvin)
+# You can skip it if you do not want to perform experiments on calvin
+git clone --recurse-submodules https://github.com/mees/calvin.git
+$ export CALVIN_ROOT=$(pwd)/calvin
+cd $CALVIN_ROOT
+sh install.sh
+
+# Install vpp requirements
+cd ..
 pip install -r requirements.txt
+
+# tips: calvin requires torch==1.13, but it also works with torch> 2.0, just ignore the warning
 ```
 
 
@@ -56,7 +68,7 @@ pip install -r requirements.txt
 | [clip-vit-base-patch32](https://huggingface.co/openai/clip-vit-base-patch32)  | CLIP text encoder, freezed during training        |  ~600M   |
 | [svd-robot](https://huggingface.co/yjguo/svd-robot/tree/main)  | SVD video model finetuned on sthv2，openx and xhand        | ~8G    |
 | [svd-robot-calvin](https://huggingface.co/yjguo/svd-robot-calvin-ft/tree/main) |   SVD video model finetuned on sthv2, openx and calvin abc video    | ~8G   |
-| [dp-calvin](https://huggingface.co/yjguo/dp-calvin/tree/main) |   Action model trained on annoted calvin abc dataset    |  ~400M  |
+| [dp-calvin](https://huggingface.co/yjguo/dp-calvin/tree/main) |   Action model trained on annoted calvin abc dataset    |  ~1G  |
 
 
 **📊 Try Predictions on sthv2, bridge or rt-1:** If you want to make predictions on these datasets, download the svd-robot model.
@@ -74,7 +86,7 @@ First, you need to follow instructions in the [officail calvin repo](https://git
 Next, download the [svd-robot-calvin](https://huggingface.co/yjguo/svd-robot-calvin-ft/tree/main) video model and [dp-calvin](https://huggingface.co/yjguo/dp-calvin/tree/main) action model. Set the video_model_folder and action_model_folder to the folder where you save the model.
 
 ```bash
-python policy_evaluation/calvin_evaluate.py --video_model_path ${path to svd-robot-calvin} --action_model_folder ${path to dp-calvin} --text_encoder_path ${path to clip} --root_data_dir ${path to calvin dataset} 
+python policy_evaluation/calvin_evaluate.py --video_model_path ${path to svd-robot-calvin} --action_model_folder ${path to dp-calvin} --clip_model_path ${path to clip} --calvin_abc_dir ${path to calvin dataset} 
 ```
 
 
@@ -95,14 +107,14 @@ You can try more video predictions with samples in video_dataset_instance.
 Our experiments are run on one node with 8 A800/H100 cards.
 
 ### 🛸 Stage 1: Training video model
-(1) Since the video diffusion model are run in latent space of image encoder, we need to first extract the latent sapce of the video. This process will save GPU memory cost and reduce training time. Run `step1_prepare_latent_data.py` to prepare latent. We have extract features for something-something-v2, bridge, rt1 and calvin, and you can directly download them:
+(1) Since the video diffusion model are run in latent space of image encoder, we need to first extract the latent sapce of the video. This process will save GPU memory cost and reduce training time. Run `step1_prepare_latent_data.py` to prepare latent. The dataset formatshould be similar to `video_dataset_instance`. 
 
+We have extract features for something-something-v2, bridge, rt1 and calvin, and you can directly download them from [huggingface dataset:vpp_svd_latent](https://huggingface.co/datasets/yjguo/vpp_svd_latent/tree/main)
 
-
-(2) After prepare the latent, you need to reset the following parameters in `video_conf/train_calvin_svd.yaml`: `dataset_dir` is the root path of datasets; `dataset` is different video dataset used for finetuning and connected with `+`; `prob` is the sample ratio of each dataset. 
+(2) After prepare the latent, you need to reset the following parameters in `video_conf/train_svd.yaml`: `dataset_dir` is the root path of datasets; `dataset` is different video dataset used for finetuning and connected with `+`; `prob` is the sample ratio of each dataset. 
 
 ```bash
-accelerate launch --main_process_port 29506 step1_train_svd.py --config video_conf/train_calvin_svd.yaml --pretrained_model_path ${path to your video model folder}
+accelerate launch --main_process_port 29506 step1_train_svd.py --config video_conf/train_calvin_svd.yaml --pretrained_model_path ${path to svd-robot}
 ```
 
 
@@ -123,6 +135,8 @@ The proccess is similar to train VPP on calvin benchamrks. Additionally, we prov
 `step2_prepare_json.py`: you can use it to merge the annotation and caculate the mean/std of state/action on your real robot demonstrations.
 
 `policy_models/datasets/xbot_dataset.py`: dataset
+
+`policy_models/VPP_policy_xbot.py`: action model
 
 `policy_conf/VPP_xbot_train.yaml`: training config
 

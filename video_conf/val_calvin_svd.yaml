@@ -1,10 +1,10 @@
 
 # model path
 pretrained_model_path: ""
-clip_model_path: ""
+clip_model_path: "" # /cephfs/shared/llm/t5-v1_1-large #"/cephfs/shared/llm/clip-vit-base-patch32"
 # Validation data parameters.
 validation_args:
-  position_encode: True
+  position_encode: False
   debug: False
   # Height and width of validation sample.
   width: 256
