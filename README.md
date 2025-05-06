@@ -45,14 +45,15 @@ This repo is the official PyTorch implementation for ICML Spotlight paper [**Vid
 conda create -n vpp python==3.10
 conda activate vpp
 
-# Install calvin as described in (https://github.com/mees/calvin)
-# You can skip it if you do not want to perform experiments on calvin
+# Install calvin as described in (https://github.com/mees/calvin). 
+# Maybe you will occur some render issues and you can refer to calvin repo to solve them.
+# You can skip calvin if you do not want to perform experiments on calvin
 git clone --recurse-submodules https://github.com/mees/calvin.git
 $ export CALVIN_ROOT=$(pwd)/calvin
 cd $CALVIN_ROOT
 sh install.sh
 
-# Install vpp requirements
+# Then install vpp requirements
 cd ..
 pip install -r requirements.txt
 
@@ -107,7 +108,7 @@ You can try more video predictions with samples in video_dataset_instance.
 Our experiments are run on one node with 8 A800/H100 cards.
 
 ### 🛸 Stage 1: Training video model
-(1) Since the video diffusion model are run in latent space of image encoder, we need to first extract the latent sapce of the video. This process will save GPU memory cost and reduce training time. Run `step1_prepare_latent_data.py` to prepare latent. The dataset formatshould be similar to `video_dataset_instance`. 
+(1) Since the video diffusion model are run in latent space of image encoder, we need to first extract the latent sapce of the video. This process will save GPU memory cost and reduce training time. Run `step1_prepare_latent_data.py` to prepare latent. The dataset format should be similar to `video_dataset_instance`. 
 
 We have extract features for something-something-v2, bridge, rt1 and calvin, and you can directly download them from [huggingface dataset:vpp_svd_latent](https://huggingface.co/datasets/yjguo/vpp_svd_latent/tree/main)
 
