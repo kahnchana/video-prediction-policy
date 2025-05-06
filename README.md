@@ -74,7 +74,7 @@ First, you need to follow instructions in the [officail calvin repo](https://hug
 Next, download the [svd-robot-calvin](https://huggingface.co/yjguo/pad_bridge_pre/tree/main) video model and [dp-calvin](https://huggingface.co/yjguo/pad_bridge_pre/tree/main) action model. Set the video_model_folder and action_model_folder to the folder where you save the model.
 
 ```bash
-python policy_evaluation/calvin_evaluate.py --video_model_folder ${path to svd-robot-calvin} --action_model_folder ${path to dp-calvin}
+python policy_evaluation/calvin_evaluate.py --video_model_path ${path to svd-robot-calvin} --action_model_folder ${path to dp-calvin} --text_encoder_path ${path to clip} --root_data_dir ${path to calvin dataset} 
 ```
 
 
@@ -99,10 +99,10 @@ Our experiments are run on one node with 8 A800/H100 cards.
 
 
 
-(2) After prepare the latent, you need to reset the following parameters in `video_conf/train_svd.yaml`: `dataset_dir` is the root path of datasets; `dataset` is different video dataset used for finetuning and connected with `+`; `prob` is the sample ratio of each dataset. 
+(2) After prepare the latent, you need to reset the following parameters in `video_conf/train_calvin_svd.yaml`: `dataset_dir` is the root path of datasets; `dataset` is different video dataset used for finetuning and connected with `+`; `prob` is the sample ratio of each dataset. 
 
 ```bash
-accelerate launch --main_process_port 29506 step1_train_svd.py --config video_conf/train_svd.yaml --pretrained_model_path ${path to your video model folder}
+accelerate launch --main_process_port 29506 step1_train_svd.py --config video_conf/train_calvin_svd.yaml --pretrained_model_path ${path to your video model folder}
 ```
 
 
@@ -111,10 +111,10 @@ accelerate launch --main_process_port 29506 step1_train_svd.py --config video_co
 
 Important: We highly encourage you to **check the video prediction results** before policy learning, since the policy performance are highly depand on the video prediction quality. Some samples are automatically saved during training. You can also make more predcitions following the instructions in the video prediction section.
 
-In file `policy_conf/VPP_Calvinabc_train.yaml`, reset the `pretrained_model_path` to the video model you finetuned, reset the `text_encoder_path` to where your clip-vit-base-patch32 located, reset the `use_position_encoding` same to the `position_encode` of video_conf/train_svd.yaml 
+Set the argument `video_model_path` to the video model you finetuned, the argument `root_data_dir` to where Calvin-ABC dataset located, the argument `text_encoder_path` to path to clip-vit-base-patch32 
 
 ```bash
-accelerate launch step2_train_action_calvin.py
+accelerate launch step2_train_action_calvin.py --root_data_dir ${path to Calvin dataset} --video_model_path ${path to video model} --text_encoder_path ${path to clip}
 ```
 
 ## Trainning Video Prediction Policy on Custem environments
