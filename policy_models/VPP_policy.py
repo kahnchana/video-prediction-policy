@@ -22,10 +22,10 @@ logger = logging.getLogger(__name__)
 
 def load_primary_models(pretrained_model_path, eval=False):
     if eval:
-        pipeline = StableVideoDiffusionPipeline.from_pretrained(pretrained_model_path, torch_dtype=torch.float16, variant='fp16')
+        pipeline = StableVideoDiffusionPipeline.from_pretrained(pretrained_model_path, torch_dtype=torch.float16)
     else:
         pipeline = StableVideoDiffusionPipeline.from_pretrained(pretrained_model_path)
-    return pipeline, None, pipeline.feature_extractor, pipeline.scheduler, pipeline.image_processor, \
+    return pipeline, None, pipeline.feature_extractor, pipeline.scheduler, pipeline.video_processor, \
         pipeline.image_encoder, pipeline.vae, pipeline.unet
 
 
