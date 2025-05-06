@@ -224,7 +224,7 @@ def rollout(env, model, task_oracle, cfg, subtask, lang_embeddings, val_annotati
     return False
 
 
-@hydra.main(config_path="../policy_conf", config_name="calvin_evaluate_all")
+#@hydra.main(config_path="../policy_conf", config_name="calvin_evaluate_all")
 def main(cfg):
     log_wandb = cfg.log_wandb
     torch.cuda.set_device(cfg.device)
@@ -236,11 +236,13 @@ def main(cfg):
     results = {}
     plans = {}
 
+    print('train_folder',cfg.train_folder)
+
     for checkpoint in checkpoints:
         print(cfg.device)
         env, _, lang_embeddings = get_default_beso_and_env(
             cfg.train_folder,
-            cfg.dataset_path,
+            cfg.root_data_dir,
             checkpoint,
             env=env,
             lang_embeddings=lang_embeddings,
@@ -260,7 +262,10 @@ def main(cfg):
         #hydra.initialize(config_path="../../conf")
         #hydra.main(config_name="config_abc.yaml")(lambda x: c.append(x))()
         model = hydra.utils.instantiate(cfg.model)
-        model.load_state_dict(state_dict['model'])
+        #model_state_dict = model.state_dict()
+        #model_state_dict.update(state_dict['model'])
+        #model.load_state_dict(model_state_dict)
+        model.load_state_dict(state_dict['model'],strict = False)
         model.freeze()
         model = model.cuda(device)
         #model = load_model()
@@ -299,10 +304,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--video_model_path", type=str, default="")
     parser.add_argument("--action_model_folder", type=str, default="")
+    parser.add_argument("--text_encoder_path", type=str, default="")
+    parser.add_argument("--root_data_dir", type=str, default="")
+    
     args = parser.parse_args()
     
     with initialize(config_path="../policy_conf", job_name="calvin_evaluate_all.yaml"):
         cfg = compose(config_name="calvin_evaluate_all.yaml")
-    cfg.model.pretrained_model_path = args.video_model_folder
+    cfg.model.pretrained_model_path = args.video_model_path
     cfg.train_folder = args.action_model_folder
-    main()
+    cfg.model.text_encoder_path = args.text_encoder_path
+    cfg.root_data_dir = args.root_data_dir
+    main(cfg)
