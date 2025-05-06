@@ -27,6 +27,7 @@ model:
   Former_dim_head: 64
   Former_num_time_embeds: 16
   num_latents: 224
+  text_encoder_path:
   pretrained_model_path: /home/disk2/gyj/hyc_ckpt/svd_2camera/checkpoint-100000
   use_Former: 3d
   timestep: 20
