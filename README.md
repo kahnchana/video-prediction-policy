@@ -56,7 +56,7 @@ pip install -r requirements.txt
 | [clip-vit-base-patch32](https://huggingface.co/openai/clip-vit-base-patch32)  | CLIP text encoder, freezed during training        |  ~600M   |
 | [svd-robot](https://huggingface.co/yjguo/svd-robot/tree/main)  | SVD video model finetuned on sthv2，openx and xhand        | ~8G    |
 | [svd-robot-calvin](https://huggingface.co/yjguo/svd-robot-calvin-ft/tree/main) |   SVD video model finetuned on sthv2, openx and calvin abc video    | ~8G   |
-| [dp-calvin](https://huggingface.co/yjguo/pad_bridge_pre/tree/main) |   Action model trained on annoted calvin abc dataset    |  ~400M  |
+| [dp-calvin](https://huggingface.co/yjguo/dp-calvin/tree/main) |   Action model trained on annoted calvin abc dataset    |  ~400M  |
 
 
 **📊 Try Predictions on sthv2, bridge or rt-1:** If you want to make predictions on these datasets, download the svd-robot model.
@@ -71,7 +71,7 @@ pip install -r requirements.txt
 ### 📊 Rollout on calvin abc benchmark
 First, you need to follow instructions in the [officail calvin repo](https://huggingface.co/yjguo/pad_bridge_pre/tree/main) to install the calvin environments and download official calvin ABC-D dataset(about 500 G).
 
-Next, download the [svd-robot-calvin](https://huggingface.co/yjguo/pad_bridge_pre/tree/main) video model and [dp-calvin](https://huggingface.co/yjguo/pad_bridge_pre/tree/main) action model. Set the video_model_folder and action_model_folder to the folder where you save the model.
+Next, download the [svd-robot-calvin](https://huggingface.co/yjguo/svd-robot-calvin-ft/tree/main) video model and [dp-calvin](https://huggingface.co/yjguo/dp-calvin/tree/main) action model. Set the video_model_folder and action_model_folder to the folder where you save the model.
 
 ```bash
 python policy_evaluation/calvin_evaluate.py --video_model_path ${path to svd-robot-calvin} --action_model_folder ${path to dp-calvin} --text_encoder_path ${path to clip} --root_data_dir ${path to calvin dataset} 
@@ -79,7 +79,7 @@ python policy_evaluation/calvin_evaluate.py --video_model_path ${path to svd-rob
 
 
 ### 📊 Make video predictions on datasets
-You can also try video predictions with [svd-robot](https://huggingface.co/yjguo/pad_bridge_pre/tree/main) model finetuned on something-somthing-v2 datasets, Bridge,  RT-1 and RobotEra xhand. Some dataset examples are provided in the folder `video_dataset_instance` and you can direct run:
+You can also try video predictions with [svd-robot](https://huggingface.co/yjguo/svd-robot/tree/main) model finetuned on something-somthing-v2 datasets, Bridge,  RT-1 and RobotEra xhand. Some dataset examples are provided in the folder `video_dataset_instance` and you can direct run:
 
 ```bash
 python make_prediction.py --eval --config video_conf/val_svd.yaml --video_model_path ${path to svd-robot} --clip_model_path ${path to clip} --val_dataset_dir video_dataset_instance/xhand --val_idx 0+50+100+150
