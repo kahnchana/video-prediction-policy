@@ -22,7 +22,7 @@ opencv-python
 omegaconf
 plotly
 ftfy
-torch
+torch==2.3.0
 torchsde
 torchdiffeq
 vit-pytorch==1.4.4
@@ -35,7 +35,7 @@ torchsde
 einops
 torchdiffeq
 gym
-moviepy
+moviepy==1.0.3
 tqdm
 termcolor
 wandb
