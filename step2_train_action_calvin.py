@@ -74,7 +74,7 @@ def create_logger(logging_dir):
 #################################################################################
 
 
-@hydra.main(config_path="./policy_conf", config_name="VPP_Calvinabc_train")
+#@hydra.main(config_path="./policy_conf", config_name="VPP_Calvinabc_train")
 def train(cfg: DictConfig) -> None:
     os.environ['HYDRA_FULL_ERROR'] = '1'
     accelerator = Accelerator()
@@ -248,4 +248,19 @@ if __name__ == "__main__":
     print(torch.cuda.is_available())
     print(torch.cuda.device_count())
     os.environ["TOKENIZERS_PARALLELISM"] = 'True'
-    train()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--video_model_path", type=str, default="")
+    parser.add_argument("--text_encoder_path", type=str, default="")
+    parser.add_argument("--root_data_dir", type=str, default="")
+    
+    args = parser.parse_args()
+    from hydra import compose, initialize
+    
+    with initialize(config_path="./policy_conf", job_name="VPP_Calvinabc_train"):
+        cfg = compose(config_name="VPP_Calvinabc_train")
+    cfg.model.pretrained_model_path = args.video_model_path
+    cfg.model.text_encoder_path = args.text_encoder_path
+    cfg.root_data_dir = args.root_data_dir
+    cfg.datamodule.root_data_dir = args.root_data_dir
+    train(cfg)
