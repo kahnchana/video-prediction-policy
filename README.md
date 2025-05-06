@@ -69,7 +69,7 @@ pip install -r requirements.txt
 
 ## Reproducing the results in paper 📊
 ### 📊 Rollout on calvin abc benchmark
-First, you need to follow instructions in the [officail calvin repo](https://huggingface.co/yjguo/pad_bridge_pre/tree/main) to install the calvin environments and download official calvin ABC-D dataset(about 500 G).
+First, you need to follow instructions in the [officail calvin repo](https://github.com/mees/calvin) to install the calvin environments and download official calvin ABC-D dataset(about 500 G).
 
 Next, download the [svd-robot-calvin](https://huggingface.co/yjguo/svd-robot-calvin-ft/tree/main) video model and [dp-calvin](https://huggingface.co/yjguo/dp-calvin/tree/main) action model. Set the video_model_folder and action_model_folder to the folder where you save the model.
 
