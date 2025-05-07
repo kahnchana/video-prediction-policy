@@ -130,7 +130,7 @@ Set the argument `video_model_path` to the video model you finetuned, the argume
 accelerate launch step2_train_action_calvin.py --root_data_dir ${path to Calvin dataset} --video_model_path ${path to video model} --text_encoder_path ${path to clip}
 ```
 
-## Trainning Video Prediction Policy on Custem environments
+## Trainning Video Prediction Policy on Custom environments
 The proccess is similar to train VPP on calvin benchamrks. Additionally, we provide the following files which we used to train VPP on real-world RobotEra x-bot/x-hand robot:
 
 `step2_prepare_json.py`: you can use it to merge the annotation and caculate the mean/std of state/action on your real robot demonstrations.
