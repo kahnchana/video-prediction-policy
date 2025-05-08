@@ -6,7 +6,7 @@ A Generalist Robot Policy with Predictive Visual Representations </h2>
 
 [Yucheng Hu*](https://github.com/Hu-Yuch), [Yanjiang Guo*](https://robert-gyj.github.io),  [Pengchao Wang](), [Xiaoyu Chen](https://cospui.github.io), [Yen-Jen Wang](https://wangyenjen.github.io), [Jianke Zhang](https://scholar.google.com/citations?hl=zh-CN&user=6is33pIAAAAJ), [Koushil Sreenath](https://me.berkeley.edu/people/koushil-sreenath/), [Chaochao Lu](https://causallu.com), [Jianyu Chen](http://people.iiis.tsinghua.edu.cn/~jychen/)
 
- \*Equal contributin; Project co-lead 
+ \*Equal contribution; Project co-lead 
 
  Tsinghua University, UC Berkeley, RobotEra, Shanghai AI Lab, Shanghai Qi Zhi Institute
 
