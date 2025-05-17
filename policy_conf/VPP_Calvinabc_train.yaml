@@ -12,7 +12,7 @@ max_window_size: 50
 future_range: 29
 seed: 242
 device: 'cuda'
-batch_size: 38 # 38 # 128
+batch_size: 28
 devices: 4
 goal_window_size: 1
 multistep: 10 #${act_seq_len}
