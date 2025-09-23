@@ -59,7 +59,7 @@ eval_cfg_overwrite:
 
 ep_len: 360
 num_sequences: 1000
-num_videos: 10
+num_videos: 0
 lang_embeddings: null
 render: False
 log_wandb: True
@@ -69,7 +69,7 @@ debug: False
 dataset_path: /home/disk2/gyj/task_ABC_D
 train_folder: /home/disk2/gyj/hyccode/Video-Prediction-Policy/checkpoint/alllayer1
 model_name: mdt_test
-device: 1
+device: 0
 sampler_type: ddim
 multistep: 10
 num_sampling_steps: 10
