@@ -2,8 +2,6 @@
 
 # conda activate calvin
 
-export WANDB_BASE_URL="https://salesforceairesearch.wandb.io"
-export WANDB_API_KEY="176474f4b1395f74376459772faeca81680a903c"
 export WANDB_PROJECT="calvin_eval"
 
 export CUDA_VISIBLE_DEVICES=0
